@@ -29,6 +29,7 @@ namespace NoteAppSY_UI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.notesCategory = new System.Windows.Forms.ComboBox();
             this.notesCategoryText = new System.Windows.Forms.TextBox();
@@ -41,7 +42,10 @@ namespace NoteAppSY_UI
             this.toolStripButton3 = new System.Windows.Forms.ToolStripDropDownButton();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.notesListBox = new System.Windows.Forms.ListBox();
+            this.noteListBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.noteListBoxBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // notesCategory
@@ -50,7 +54,7 @@ namespace NoteAppSY_UI
             this.notesCategory.Location = new System.Drawing.Point(115, 41);
             this.notesCategory.Name = "notesCategory";
             this.notesCategory.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.notesCategory.Size = new System.Drawing.Size(95, 24);
+            this.notesCategory.Size = new System.Drawing.Size(142, 24);
             this.notesCategory.TabIndex = 1;
             this.notesCategory.SelectedIndexChanged += new System.EventHandler(this.categoryComboBox_SelectedIndexChanged);
             // 
@@ -95,7 +99,7 @@ namespace NoteAppSY_UI
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 28);
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 24);
             this.toolStripButton2.Text = "Edit";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -134,7 +138,7 @@ namespace NoteAppSY_UI
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -148,15 +152,30 @@ namespace NoteAppSY_UI
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // notesListBox
+            // 
+            this.notesListBox.FormattingEnabled = true;
+            this.notesListBox.ItemHeight = 16;
+            this.notesListBox.Location = new System.Drawing.Point(12, 88);
+            this.notesListBox.Name = "notesListBox";
+            this.notesListBox.Size = new System.Drawing.Size(245, 308);
+            this.notesListBox.TabIndex = 3;
+            this.notesListBox.SelectedIndexChanged += new System.EventHandler(this.notesListBox_SelectedIndexChanged);
+            // 
+            // noteListBoxBindingSource
+            // 
+            this.noteListBoxBindingSource.DataSource = typeof(NoteAppSY_UI.MainForm.NoteListBox);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.notesListBox);
             this.Controls.Add(this.notesCategoryText);
             this.Controls.Add(this.notesCategory);
             this.Controls.Add(this.toolStrip1);
@@ -164,6 +183,7 @@ namespace NoteAppSY_UI
             this.Text = "NoteAppSY";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.noteListBoxBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,6 +201,8 @@ namespace NoteAppSY_UI
         private System.Windows.Forms.ToolStripDropDownButton toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ListBox notesListBox;
+        private System.Windows.Forms.BindingSource noteListBoxBindingSource;
     }
 }
 
