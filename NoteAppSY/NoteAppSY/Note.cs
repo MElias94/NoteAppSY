@@ -13,8 +13,10 @@ namespace NoteAppSY
     public class Note
     {
         public string Name { get; set; }
+        public string Text;
         public string[] Sizes { get; set; }
         public string Category { get; set; }
+        public DateTime LastUpdate;
     }
 
 }

@@ -48,8 +48,9 @@ namespace NoteAppSY_UI
             notesCategory.Items.Add(Category.Finance);
             notesCategory.Items.Add(Category.Other);
             notesCategory.SelectedIndex = 0;
+            FillListBoxByTestNote();
         }
-
+        
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
 
@@ -71,7 +72,36 @@ namespace NoteAppSY_UI
 
         private void editNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+                //Получаем текущую выбранную дату
+                var selectedIndex = notesListBox.SelectedIndex;
+                var selectedNote = _note[selectedIndex];
+                var inner = new InnerForm(); //Создаем форму
+                inner.Note = selectedNote; //Передаем форме данные
+                inner.ShowDialog(); //Отображаем форму для редактирования
+                var updatedNote = inner.Note; //Забираем измененные данные
+                //Осталось удалить старые данные по выбранному индексу
+                // и заменить их на обновленные
+                notesListBox.Items.RemoveAt(selectedIndex);
+                _note.RemoveAt(selectedIndex);
+                _note.Insert(selectedIndex, updatedNote);
+                var time = updatedNote.LastUpdate.ToLongTimeString();
+                var text = updatedNote.Text;
+                notesListBox.Items.Insert(selectedIndex, time + " " + text);
+        }
+        private void FillListBoxByTestNote(int noteCount = 3)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var note = new Note()
+                {
+                    Text = "Some text" + i,
+                    LastUpdate = DateTime.Now
+                };
+                _note.Add(note);
+                var time = note.LastUpdate.ToLongTimeString();
+                var text = note.Text;
+                notesListBox.Items.Add(time + " " + text);
+            }
         }
 
         private void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,4 +134,5 @@ namespace NoteAppSY_UI
 
         }
     }
+    
 }
