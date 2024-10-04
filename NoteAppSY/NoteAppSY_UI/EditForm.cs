@@ -33,7 +33,7 @@ namespace NoteAppSY_UI
         {
             InitializeComponent();
             this.Text = "Редактор";
-            this.Size = new Size(400, 300);
+            this.Size = new Size(400, 310);
 
         }
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
