@@ -47,6 +47,7 @@ namespace NoteAppSY_UI
             this.editPictureBox = new System.Windows.Forms.PictureBox();
             this.removePictureBox = new System.Windows.Forms.PictureBox();
             this.noteListBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.noteTextBox = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.editPictureBox)).BeginInit();
@@ -84,7 +85,7 @@ namespace NoteAppSY_UI
             this.exitToolStripMenuItem});
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(46, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(46, 28);
             this.toolStripButton1.Text = "File";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -138,7 +139,7 @@ namespace NoteAppSY_UI
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(55, 24);
+            this.toolStripButton3.Size = new System.Drawing.Size(55, 28);
             this.toolStripButton3.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -175,7 +176,7 @@ namespace NoteAppSY_UI
             // addPictureBox
             // 
             this.addPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("addPictureBox.Image")));
-            this.addPictureBox.Location = new System.Drawing.Point(23, 402);
+            this.addPictureBox.Location = new System.Drawing.Point(23, 408);
             this.addPictureBox.Name = "addPictureBox";
             this.addPictureBox.Size = new System.Drawing.Size(30, 30);
             this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -186,7 +187,7 @@ namespace NoteAppSY_UI
             // editPictureBox
             // 
             this.editPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("editPictureBox.Image")));
-            this.editPictureBox.Location = new System.Drawing.Point(70, 402);
+            this.editPictureBox.Location = new System.Drawing.Point(89, 408);
             this.editPictureBox.Name = "editPictureBox";
             this.editPictureBox.Size = new System.Drawing.Size(30, 30);
             this.editPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -197,7 +198,7 @@ namespace NoteAppSY_UI
             // removePictureBox
             // 
             this.removePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("removePictureBox.Image")));
-            this.removePictureBox.Location = new System.Drawing.Point(115, 402);
+            this.removePictureBox.Location = new System.Drawing.Point(152, 408);
             this.removePictureBox.Name = "removePictureBox";
             this.removePictureBox.Size = new System.Drawing.Size(30, 30);
             this.removePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -209,11 +210,23 @@ namespace NoteAppSY_UI
             // 
             this.noteListBoxBindingSource.DataSource = typeof(NoteAppSY_UI.MainForm.NoteListBox);
             // 
+            // noteTextBox
+            // 
+            this.noteTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.noteTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.noteTextBox.Location = new System.Drawing.Point(295, 88);
+            this.noteTextBox.Multiline = true;
+            this.noteTextBox.Name = "noteTextBox";
+            this.noteTextBox.Size = new System.Drawing.Size(461, 308);
+            this.noteTextBox.TabIndex = 5;
+            this.noteTextBox.TextChanged += new System.EventHandler(this.noteTextBox_TextChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.noteTextBox);
             this.Controls.Add(this.removePictureBox);
             this.Controls.Add(this.editPictureBox);
             this.Controls.Add(this.addPictureBox);
@@ -222,6 +235,7 @@ namespace NoteAppSY_UI
             this.Controls.Add(this.notesCategory);
             this.Controls.Add(this.toolStrip1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NoteAppSY";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -251,6 +265,7 @@ namespace NoteAppSY_UI
         private System.Windows.Forms.PictureBox editPictureBox;
         private System.Windows.Forms.PictureBox removePictureBox;
         private System.Windows.Forms.BindingSource noteListBoxBindingSource;
+        private System.Windows.Forms.TextBox noteTextBox;
     }
 }
 

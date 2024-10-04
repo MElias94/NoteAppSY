@@ -35,8 +35,9 @@ namespace NoteAppSY_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 339);
+            this.ClientSize = new System.Drawing.Size(508, 336);
             this.Name = "AboutForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AboutForm";
             this.Load += new System.EventHandler(this.AboutForm_Load);
             this.ResumeLayout(false);

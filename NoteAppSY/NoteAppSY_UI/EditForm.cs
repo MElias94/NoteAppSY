@@ -25,6 +25,7 @@ namespace NoteAppSY_UI
                 _note = value;
                 if (_note != null)
                 {
+                    noteNameTextBox.Text = _note.Name;
                     NoteTextBox.Text = _note.Text;
                 }
             }
@@ -34,16 +35,17 @@ namespace NoteAppSY_UI
             InitializeComponent();
             this.Text = "Редактор";
             this.Size = new Size(400, 300);
-
         }
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
         {
-            _note.Text = NoteTextBox.Text;
-            _note.LastUpdate = DateTime.Now;
+
         }
         private void OkButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+            _note.Name = noteNameTextBox.Text;
+            _note.Text = NoteTextBox.Text;
+            _note.LastUpdate = DateTime.Now;
             this.Close();
         }
         private void CancelButton_Click(object sender, EventArgs e)
@@ -56,6 +58,14 @@ namespace NoteAppSY_UI
 
         }
 
-        
+        private void noteNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void enterNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
