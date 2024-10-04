@@ -15,7 +15,14 @@ namespace NoteAppSY_UI
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Список заметок
+        /// </summary>
         private List<Note> _note = new List<Note>();
+        /// <summary>
+        /// Фильтрованный по категории список заметок   
+        /// </summary>
+        private List<Note> _filteredNotes = new List<Note>();
         /// <summary>
         /// Список категорий    
         /// </summary>
@@ -30,38 +37,16 @@ namespace NoteAppSY_UI
             Finance,
             Other,
         }
-        /// <summary>
-        /// Список заметок
-        /// </summary>
-        public enum NoteListBox
-        {
-            Example,
-        }
-
+        
         public MainForm()
         {
             InitializeComponent();
-            notesCategory.Items.Add(Category.All);
-            notesCategory.Items.Add(Category.Home);
-            notesCategory.Items.Add(Category.Work);
-            notesCategory.Items.Add(Category.Health);
-            notesCategory.Items.Add(Category.People);
-            notesCategory.Items.Add(Category.Docs);
-            notesCategory.Items.Add(Category.Finance);
-            notesCategory.Items.Add(Category.Other);
-            notesCategory.SelectedIndex = 0;
             //notesListBox.SelectedIndex = 0;
-            FillListBoxByTestNote();
-            //Создаём переменную, в которую поместим результат десериализации
-            List<Note> _note = null;
-            //Создаём экземпляр сериализатора
-            JsonSerializer serializer = new JsonSerializer();
-            //Открываем поток для чтения из файла с указанием пути
-            using (StreamReader sr = new StreamReader(@"c:\json.txt"))
-            using (JsonReader reader = new JsonTextReader(sr))
+            //FillListBoxByTestNote();
+            notesCategory.SelectedItem = Category.All;
+            foreach (Category category in Enum.GetValues(typeof(Category)))
             {
-                //Вызываем десериализацию и явно преобразуем результат в целевой тип данных
-                _note = (List<Note>)serializer.Deserialize<List<Note>>(reader);
+                notesCategory.Items.Add(category);
             }
         }
         
@@ -82,7 +67,7 @@ namespace NoteAppSY_UI
             newNote.Category = "Other";
             newNote.LastUpdate = DateTime.Now;
             _note.Add(newNote);
-            notesListBox.Items.Add(newNote.LastUpdate.ToLongTimeString() + newNote.Name);
+            notesListBox.Items.Add(newNote.LastUpdate.ToLongTimeString() + " " + newNote.Name);
         }
 
         private void editNoteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -109,15 +94,6 @@ namespace NoteAppSY_UI
                 var time = updatedNote.LastUpdate.ToLongTimeString();
                 var text = updatedNote.Text;
                 notesListBox.Items.Insert(selectedIndex, time + " " + name);
-                //Создаём экземпляр сериализатора
-                JsonSerializer serializer = new JsonSerializer();
-                //Открываем поток для записи в файл с указанием пути
-                using (StreamWriter sw = new StreamWriter(@"c:\json.txt"))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    //Вызываем сериализацию и передаем объект, который хотим сериализовать
-                    serializer.Serialize(writer, _note);
-                }
         }
         private void FillListBoxByTestNote(int noteCount = 3)
         {
@@ -164,7 +140,39 @@ namespace NoteAppSY_UI
 
         private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (notesCategory.SelectedItem != null)
+            {
+                Category selectedCategory = (Category)notesCategory.SelectedItem;
+                notesListBox.Items.Clear();
 
+                switch (selectedCategory)
+                {
+                    case Category.All:
+                        _filteredNotes = _note;
+                        break;
+                    default:
+                        _filteredNotes = _note.Where(n =>
+                        {
+                            Category category;
+                            if (Enum.TryParse<Category>(n.Category, out category))
+                            {
+                                return category == selectedCategory;
+                            }
+                            else
+                            {
+                                // Обработка некорректного значения
+                                return false;
+                            }
+                        }).ToList();
+                        break;
+                }
+
+                foreach (var note in _filteredNotes)
+                {
+                    // Получение названия заметки и даты
+                    UpdateNotesListBox();
+                }
+            }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -181,7 +189,7 @@ namespace NoteAppSY_UI
             // Проверяем, что элемент выбран
             if (notesListBox.SelectedIndex != -1)
             {
-                noteTextBox.Text = _note[notesListBox.SelectedIndex].Text;
+                noteTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].Text;
             }
         }
 
@@ -192,7 +200,7 @@ namespace NoteAppSY_UI
             newNote.Category = "Other";
             newNote.LastUpdate = DateTime.Now;
             _note.Add(newNote);
-            notesListBox.Items.Add(newNote.LastUpdate.ToLongTimeString() + newNote.Name);
+            notesListBox.Items.Add(newNote.LastUpdate.ToLongTimeString() + " " + newNote.Name);
         }
         private void editPictureBox_Click(object sender, EventArgs e)
         {
@@ -204,20 +212,17 @@ namespace NoteAppSY_UI
             }
             //Получаем текущую выбранную дату
             var selectedIndex = notesListBox.SelectedIndex;
-            var selectedNote = _note[selectedIndex];
+            var selectedNote = _filteredNotes[selectedIndex];
             var edit = new EditForm(); //Создаем форму 
             edit.Note = selectedNote; //Передаем форме данные
             edit.ShowDialog(); //Отображаем форму для редактирования
             var updatedNote = edit.Note; //Забираем измененные данные
             //Осталось удалить старые данные по выбранному индексу
             // и заменить их на обновленные
-            notesListBox.Items.RemoveAt(selectedIndex);
-            _note.RemoveAt(selectedIndex);
-            _note.Insert(selectedIndex, updatedNote);
-            var name = updatedNote.Name;
-            var time = updatedNote.LastUpdate.ToLongTimeString();
-            var text = updatedNote.Text;
-            notesListBox.Items.Insert(selectedIndex, time + " " + name);
+            int originalIndex = _note.IndexOf(selectedNote);
+            _note.RemoveAt(originalIndex);
+            _note.Insert(originalIndex, updatedNote);
+            UpdateNotesListBox();
         }
 
         private void removePictureBox_Click(object sender, EventArgs e)
@@ -243,6 +248,54 @@ namespace NoteAppSY_UI
         private void noteTextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void SerializeNotesToFile(string filePath)
+        {
+            // Сериализация списка заметок в JSON
+            string json = JsonConvert.SerializeObject(_note, Formatting.Indented);
+
+            // Запись JSON в файл
+            File.WriteAllText(filePath, json);
+        }
+
+        private void DeserializeNotesFromFile(string filePath)
+        {
+            // Проверка существования файла
+            if (File.Exists(filePath))
+            {
+                // Чтение JSON из файла
+                string json = File.ReadAllText(filePath);
+
+                // Десериализация JSON в список заметок
+                _note = JsonConvert.DeserializeObject<List<Note>>(json);
+
+                // Обновление ListBox (если нужно)
+                UpdateNotesListBox();
+            }
+        }
+
+        // Метод для обновления ListBox
+        private void UpdateNotesListBox()
+        {
+            notesListBox.Items.Clear(); // Очищаем ListBox
+            foreach (var note in _filteredNotes) // Используйте _note, а не _filteredNotes
+            {
+                string name = note.Name;
+                string lastUpdate = note.LastUpdate.ToString("dd.MM.yyyy");
+                notesListBox.Items.Add(lastUpdate + " " + name);
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SerializeNotesToFile(@"d:\notes.json"); // Сохраняем данные при закрытии формы
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            DeserializeNotesFromFile(@"d:\notes.json"); // Загружаем данные при загрузке формы
+            notesCategory.SelectedIndex = 0;
         }
     }
     

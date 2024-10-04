@@ -46,8 +46,8 @@ namespace NoteAppSY_UI
             this.addPictureBox = new System.Windows.Forms.PictureBox();
             this.editPictureBox = new System.Windows.Forms.PictureBox();
             this.removePictureBox = new System.Windows.Forms.PictureBox();
-            this.noteListBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.noteTextBox = new System.Windows.Forms.TextBox();
+            this.noteListBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.editPictureBox)).BeginInit();
@@ -85,7 +85,7 @@ namespace NoteAppSY_UI
             this.exitToolStripMenuItem});
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(46, 28);
+            this.toolStripButton1.Size = new System.Drawing.Size(46, 24);
             this.toolStripButton1.Text = "File";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -139,7 +139,7 @@ namespace NoteAppSY_UI
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(55, 28);
+            this.toolStripButton3.Size = new System.Drawing.Size(55, 24);
             this.toolStripButton3.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -206,10 +206,6 @@ namespace NoteAppSY_UI
             this.removePictureBox.TabStop = false;
             this.removePictureBox.Click += new System.EventHandler(this.removePictureBox_Click);
             // 
-            // noteListBoxBindingSource
-            // 
-            this.noteListBoxBindingSource.DataSource = typeof(NoteAppSY_UI.MainForm.NoteListBox);
-            // 
             // noteTextBox
             // 
             this.noteTextBox.BackColor = System.Drawing.SystemColors.Control;
@@ -237,6 +233,8 @@ namespace NoteAppSY_UI
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NoteAppSY";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
@@ -264,8 +262,8 @@ namespace NoteAppSY_UI
         private System.Windows.Forms.PictureBox addPictureBox;
         private System.Windows.Forms.PictureBox editPictureBox;
         private System.Windows.Forms.PictureBox removePictureBox;
-        private System.Windows.Forms.BindingSource noteListBoxBindingSource;
         private System.Windows.Forms.TextBox noteTextBox;
+        private System.Windows.Forms.BindingSource noteListBoxBindingSource;
     }
 }
 

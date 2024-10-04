@@ -27,6 +27,7 @@ namespace NoteAppSY_UI
                 {
                     noteNameTextBox.Text = _note.Name;
                     NoteTextBox.Text = _note.Text;
+                    editNotesCategory.Text = _note.Category;
                 }
             }
         }
@@ -34,7 +35,11 @@ namespace NoteAppSY_UI
         {
             InitializeComponent();
             this.Text = "Редактор";
-            this.Size = new Size(400, 300);
+            foreach (MainForm.Category category in Enum.GetValues(typeof(MainForm.Category)))
+            {
+                editNotesCategory.Items.Add(category);
+            }
+            editNotesCategory.SelectedIndex = 0; // Установка начального значения
         }
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -46,6 +51,7 @@ namespace NoteAppSY_UI
             _note.Name = noteNameTextBox.Text;
             _note.Text = NoteTextBox.Text;
             _note.LastUpdate = DateTime.Now;
+            _note.Category = editNotesCategory.Text;
             this.Close();
         }
         private void CancelButton_Click(object sender, EventArgs e)
@@ -64,6 +70,16 @@ namespace NoteAppSY_UI
         }
 
         private void enterNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectCategoryTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editNotesCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

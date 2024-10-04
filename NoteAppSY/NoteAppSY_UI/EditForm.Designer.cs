@@ -34,11 +34,13 @@ namespace NoteAppSY_UI
             this.CancelButton = new System.Windows.Forms.Button();
             this.noteNameTextBox = new System.Windows.Forms.TextBox();
             this.enterNameTextBox = new System.Windows.Forms.TextBox();
+            this.selectCategoryTextBox = new System.Windows.Forms.TextBox();
+            this.editNotesCategory = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // NoteTextBox
             // 
-            this.NoteTextBox.Location = new System.Drawing.Point(12, 65);
+            this.NoteTextBox.Location = new System.Drawing.Point(12, 96);
             this.NoteTextBox.Multiline = true;
             this.NoteTextBox.Name = "NoteTextBox";
             this.NoteTextBox.Size = new System.Drawing.Size(278, 146);
@@ -47,7 +49,7 @@ namespace NoteAppSY_UI
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(35, 217);
+            this.OkButton.Location = new System.Drawing.Point(35, 248);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(85, 29);
             this.OkButton.TabIndex = 1;
@@ -57,7 +59,7 @@ namespace NoteAppSY_UI
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(158, 217);
+            this.CancelButton.Location = new System.Drawing.Point(158, 248);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(85, 29);
             this.CancelButton.TabIndex = 1;
@@ -68,9 +70,9 @@ namespace NoteAppSY_UI
             // noteNameTextBox
             // 
             this.noteNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.noteNameTextBox.Location = new System.Drawing.Point(130, 26);
+            this.noteNameTextBox.Location = new System.Drawing.Point(118, 26);
             this.noteNameTextBox.Name = "noteNameTextBox";
-            this.noteNameTextBox.Size = new System.Drawing.Size(100, 15);
+            this.noteNameTextBox.Size = new System.Drawing.Size(172, 15);
             this.noteNameTextBox.TabIndex = 2;
             this.noteNameTextBox.TextChanged += new System.EventHandler(this.noteNameTextBox_TextChanged);
             // 
@@ -85,11 +87,34 @@ namespace NoteAppSY_UI
             this.enterNameTextBox.Text = "Enter note name";
             this.enterNameTextBox.TextChanged += new System.EventHandler(this.enterNameTextBox_TextChanged);
             // 
+            // selectCategoryTextBox
+            // 
+            this.selectCategoryTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.selectCategoryTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.selectCategoryTextBox.Location = new System.Drawing.Point(12, 58);
+            this.selectCategoryTextBox.Name = "selectCategoryTextBox";
+            this.selectCategoryTextBox.Size = new System.Drawing.Size(148, 15);
+            this.selectCategoryTextBox.TabIndex = 3;
+            this.selectCategoryTextBox.Text = "Choose category name";
+            this.selectCategoryTextBox.TextChanged += new System.EventHandler(this.selectCategoryTextBox_TextChanged);
+            // 
+            // editNotesCategory
+            // 
+            this.editNotesCategory.FormattingEnabled = true;
+            this.editNotesCategory.Location = new System.Drawing.Point(183, 55);
+            this.editNotesCategory.Name = "editNotesCategory";
+            this.editNotesCategory.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.editNotesCategory.Size = new System.Drawing.Size(107, 24);
+            this.editNotesCategory.TabIndex = 4;
+            this.editNotesCategory.SelectedIndexChanged += new System.EventHandler(this.editNotesCategory_SelectedIndexChanged);
+            // 
             // EditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 301);
+            this.ClientSize = new System.Drawing.Size(307, 293);
+            this.Controls.Add(this.editNotesCategory);
+            this.Controls.Add(this.selectCategoryTextBox);
             this.Controls.Add(this.enterNameTextBox);
             this.Controls.Add(this.noteNameTextBox);
             this.Controls.Add(this.CancelButton);
@@ -111,5 +136,7 @@ namespace NoteAppSY_UI
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TextBox noteNameTextBox;
         private System.Windows.Forms.TextBox enterNameTextBox;
+        private System.Windows.Forms.TextBox selectCategoryTextBox;
+        private System.Windows.Forms.ComboBox editNotesCategory;
     }
 }
