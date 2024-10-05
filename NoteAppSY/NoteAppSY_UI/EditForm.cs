@@ -28,6 +28,8 @@ namespace NoteAppSY_UI
                     noteNameTextBox.Text = _note.Name;
                     NoteTextBox.Text = _note.Text;
                     editNotesCategory.Text = _note.Category;
+                    createSelectedTextBox.Text = _note.CreateTime.ToShortDateString();
+                    lastUpdateSelectedTextBox.Text = _note.LastUpdate.ToShortDateString();
                 }
             }
         }
@@ -47,19 +49,44 @@ namespace NoteAppSY_UI
         }
         private void OkButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            _note.Name = noteNameTextBox.Text;
-            _note.Text = NoteTextBox.Text;
-            _note.LastUpdate = DateTime.Now;
-            _note.Category = editNotesCategory.Text;
-            this.Close();
+            if (noteNameTextBox.Text.Length > 25)
+            {
+                MessageBox.Show("Note title symbols should not except 25");
+                return;
+            }
+            else
+            {
+                DialogResult = DialogResult.OK;
+                _note.Name = noteNameTextBox.Text;
+                _note.Text = NoteTextBox.Text;
+                _note.LastUpdate = DateTime.Now;
+                _note.Category = editNotesCategory.Text;
+                this.Close();
+            }
         }
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
-            this.Close();
+            if (NoteTextBox.Text.Length > 0)
+            {
+                DialogResult result = MessageBox.Show("Close without saving?",
+                    "Close",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
+                if (result == DialogResult.OK)
+                {
+                    DialogResult = DialogResult.Cancel; // Закрытие формы
+                    this.Close(); // Закрытие формы
+                }
+                else if (result == DialogResult.Cancel) // Обработка Cancel
+                {
+                    return; // Выходим из обработчика, чтобы не закрывать форму
+                }
+            }
+
+            DialogResult = DialogResult.Cancel; // Закрытие формы
+            this.Close(); // Закрытие формы
         }
-        private void InnerForm_Load(object sender, EventArgs e)
+        private void EditForm_Load(object sender, EventArgs e)
         {
 
         }
@@ -80,6 +107,31 @@ namespace NoteAppSY_UI
         }
 
         private void editNotesCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void createTimeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void updateTimeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void createSelectedTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lastUpdateSelectedTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EditForm_FormClosing(object sender, FormClosingEventArgs e)
         {
 
         }

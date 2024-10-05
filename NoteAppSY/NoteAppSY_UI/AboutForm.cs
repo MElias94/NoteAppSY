@@ -16,10 +16,19 @@ namespace NoteAppSY_UI
         {
             InitializeComponent();
             this.Text = "About";
-            this.Size = new Size(400, 300);
         }
 
         private void AboutForm_Load(object sender, EventArgs e)
+        {
+            aboutMainTextBox.SelectionStart = 0;
+        }
+
+        private void aboutMainTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aboutTitleTextBox_TextChanged(object sender, EventArgs e)
         {
 
         }
