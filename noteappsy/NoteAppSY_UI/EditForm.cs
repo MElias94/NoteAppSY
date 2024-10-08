@@ -43,7 +43,6 @@ namespace NoteAppSY_UI
             }
             editNotesCategory.SelectedIndex = 0; // Установка начального значения
         }
-
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
         {
 

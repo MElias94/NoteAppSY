@@ -78,7 +78,7 @@ namespace NoteAppSY_UI
             // 
             // noteNameTextBox
             // 
-            this.noteNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.noteNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.noteNameTextBox.Location = new System.Drawing.Point(118, 26);
             this.noteNameTextBox.Multiline = true;
             this.noteNameTextBox.Name = "noteNameTextBox";
@@ -121,10 +121,11 @@ namespace NoteAppSY_UI
             // 
             // createSelectedTextBox
             // 
-            this.createSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.createSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.createSelectedTextBox.Enabled = false;
             this.createSelectedTextBox.Location = new System.Drawing.Point(76, 104);
             this.createSelectedTextBox.Name = "createSelectedTextBox";
-            this.createSelectedTextBox.Size = new System.Drawing.Size(94, 15);
+            this.createSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.createSelectedTextBox.TabIndex = 19;
             this.createSelectedTextBox.TextChanged += new System.EventHandler(this.createSelectedTextBox_TextChanged);
             // 
@@ -143,10 +144,11 @@ namespace NoteAppSY_UI
             // 
             // lastUpdateSelectedTextBox
             // 
-            this.lastUpdateSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lastUpdateSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lastUpdateSelectedTextBox.Enabled = false;
             this.lastUpdateSelectedTextBox.Location = new System.Drawing.Point(255, 104);
             this.lastUpdateSelectedTextBox.Name = "lastUpdateSelectedTextBox";
-            this.lastUpdateSelectedTextBox.Size = new System.Drawing.Size(94, 15);
+            this.lastUpdateSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.lastUpdateSelectedTextBox.TabIndex = 17;
             this.lastUpdateSelectedTextBox.TextChanged += new System.EventHandler(this.lastUpdateSelectedTextBox_TextChanged);
             // 

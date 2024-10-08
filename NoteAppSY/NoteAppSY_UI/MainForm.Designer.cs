@@ -33,6 +33,7 @@ namespace NoteAppSY_UI
             this.notesCategory = new System.Windows.Forms.ComboBox();
             this.notesCategoryText = new System.Windows.Forms.TextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -56,7 +57,6 @@ namespace NoteAppSY_UI
             this.removePictureBox = new System.Windows.Forms.PictureBox();
             this.createTimeTextBox = new System.Windows.Forms.TextBox();
             this.createSelectedTextBox = new System.Windows.Forms.TextBox();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.statusGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editPictureBox)).BeginInit();
@@ -96,21 +96,28 @@ namespace NoteAppSY_UI
             this.exitToolStripMenuItem});
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(46, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(46, 28);
             this.toolStripButton1.Text = "File";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -124,7 +131,7 @@ namespace NoteAppSY_UI
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 28);
             this.toolStripButton2.Text = "Edit";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -157,7 +164,7 @@ namespace NoteAppSY_UI
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(55, 24);
+            this.toolStripButton3.Size = new System.Drawing.Size(55, 28);
             this.toolStripButton3.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -177,7 +184,7 @@ namespace NoteAppSY_UI
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -203,16 +210,19 @@ namespace NoteAppSY_UI
             this.noteTextBox.Location = new System.Drawing.Point(295, 128);
             this.noteTextBox.Multiline = true;
             this.noteTextBox.Name = "noteTextBox";
+            this.noteTextBox.ReadOnly = true;
             this.noteTextBox.Size = new System.Drawing.Size(493, 304);
             this.noteTextBox.TabIndex = 5;
             this.noteTextBox.TextChanged += new System.EventHandler(this.noteTextBox_TextChanged);
             // 
             // selectedCategoryNameTextBox
             // 
-            this.selectedCategoryNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.selectedCategoryNameTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.selectedCategoryNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.selectedCategoryNameTextBox.Location = new System.Drawing.Point(359, 67);
             this.selectedCategoryNameTextBox.Name = "selectedCategoryNameTextBox";
-            this.selectedCategoryNameTextBox.Size = new System.Drawing.Size(94, 15);
+            this.selectedCategoryNameTextBox.ReadOnly = true;
+            this.selectedCategoryNameTextBox.Size = new System.Drawing.Size(94, 22);
             this.selectedCategoryNameTextBox.TabIndex = 6;
             this.selectedCategoryNameTextBox.TextChanged += new System.EventHandler(this.selectedCategoryNameTextBox_TextChanged);
             // 
@@ -244,10 +254,11 @@ namespace NoteAppSY_UI
             // 
             // lastUpdateSelectedTextBox
             // 
-            this.lastUpdateSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lastUpdateSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lastUpdateSelectedTextBox.Enabled = false;
             this.lastUpdateSelectedTextBox.Location = new System.Drawing.Point(538, 98);
             this.lastUpdateSelectedTextBox.Name = "lastUpdateSelectedTextBox";
-            this.lastUpdateSelectedTextBox.Size = new System.Drawing.Size(94, 15);
+            this.lastUpdateSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.lastUpdateSelectedTextBox.TabIndex = 9;
             this.lastUpdateSelectedTextBox.TextChanged += new System.EventHandler(this.lastUpdateSelectedTextBox_TextChanged);
             // 
@@ -266,10 +277,12 @@ namespace NoteAppSY_UI
             // 
             // selectedTitleTextBox
             // 
-            this.selectedTitleTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.selectedTitleTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.selectedTitleTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.selectedTitleTextBox.Location = new System.Drawing.Point(359, 28);
             this.selectedTitleTextBox.Multiline = true;
             this.selectedTitleTextBox.Name = "selectedTitleTextBox";
+            this.selectedTitleTextBox.ReadOnly = true;
             this.selectedTitleTextBox.Size = new System.Drawing.Size(292, 22);
             this.selectedTitleTextBox.TabIndex = 11;
             this.selectedTitleTextBox.TextChanged += new System.EventHandler(this.selectedTitleTextBox_TextChanged);
@@ -334,19 +347,13 @@ namespace NoteAppSY_UI
             // 
             // createSelectedTextBox
             // 
-            this.createSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.createSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.createSelectedTextBox.Enabled = false;
             this.createSelectedTextBox.Location = new System.Drawing.Point(359, 98);
             this.createSelectedTextBox.Name = "createSelectedTextBox";
-            this.createSelectedTextBox.Size = new System.Drawing.Size(94, 15);
+            this.createSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.createSelectedTextBox.TabIndex = 15;
             this.createSelectedTextBox.TextChanged += new System.EventHandler(this.createSelectedTextBox_TextChanged);
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // MainForm
             // 

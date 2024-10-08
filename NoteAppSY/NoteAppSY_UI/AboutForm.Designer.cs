@@ -37,11 +37,13 @@ namespace NoteAppSY_UI
             // 
             this.aboutMainTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.aboutMainTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.aboutMainTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
+            this.aboutMainTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.aboutMainTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.aboutMainTextBox.Location = new System.Drawing.Point(12, 66);
             this.aboutMainTextBox.Multiline = true;
             this.aboutMainTextBox.Name = "aboutMainTextBox";
-            this.aboutMainTextBox.Size = new System.Drawing.Size(404, 246);
+            this.aboutMainTextBox.ReadOnly = true;
+            this.aboutMainTextBox.Size = new System.Drawing.Size(404, 267);
             this.aboutMainTextBox.TabIndex = 0;
             this.aboutMainTextBox.Text = "Учебный проект для университета\r\n\r\nv1.0.0\r\n\r\nAuthor: MElias94\r\n\r\nGitHub: https://" +
     "github.com/MElias94/NoteAppSY\r\n\r\n\r\n\r\n2024";
@@ -54,6 +56,7 @@ namespace NoteAppSY_UI
             this.aboutTitleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.8F);
             this.aboutTitleTextBox.Location = new System.Drawing.Point(12, 12);
             this.aboutTitleTextBox.Name = "aboutTitleTextBox";
+            this.aboutTitleTextBox.ReadOnly = true;
             this.aboutTitleTextBox.Size = new System.Drawing.Size(164, 30);
             this.aboutTitleTextBox.TabIndex = 1;
             this.aboutTitleTextBox.Text = "NoteApp_SY";

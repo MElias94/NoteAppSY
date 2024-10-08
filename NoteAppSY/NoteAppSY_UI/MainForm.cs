@@ -23,21 +23,7 @@ namespace NoteAppSY_UI
         /// Фильтрованный по категории список заметок   
         /// </summary>
         private List<Note> _filteredNotes = new List<Note>();
-        /// <summary>
-        /// Список категорий    
-        /// </summary>
-        public enum Category
-        {
-            All,
-            Home,
-            Work,
-            Health,
-            People,
-            Docs,
-            Finance,
-            Other,
-        }
-        
+
         public MainForm()
         {
             InitializeComponent();
@@ -52,7 +38,7 @@ namespace NoteAppSY_UI
         
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-
+            
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -180,18 +166,20 @@ namespace NoteAppSY_UI
         /// </summary>
         private void FillListBoxByTestNote(int noteCount = 3)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < noteCount; i++)
             {
                 var note = new Note()
                 {
                     Name = "Some text" + i,
-                    LastUpdate = DateTime.Now
+                    LastUpdate = DateTime.Now,
+                    Text = i + " Note " + i
                 };
                 _note.Add(note);
                 var name = note.Name;
-                var time = note.LastUpdate.ToLongTimeString();
+                var time = note.LastUpdate.ToShortDateString();
                 var text = note.Text;
                 notesListBox.Items.Add(time + " " + name);
+                UpdateNotesListBox();
             }
         }
 
@@ -393,7 +381,9 @@ namespace NoteAppSY_UI
         private void UpdateNotesListBox()
         {
             notesListBox.Items.Clear(); // Очищаем ListBox
-            foreach (var note in _filteredNotes) // Используйте _note, а не _filteredNotes
+            // Сортируем заметки по дате изменения (новые сверху)
+            _filteredNotes.Sort((x, y) => y.LastUpdate.CompareTo(x.LastUpdate));
+            foreach (var note in _filteredNotes)
             {
                 string name = note.Name;
                 string lastUpdateD = note.LastUpdate.ToString("dd.MM.yyyy");
@@ -446,7 +436,7 @@ namespace NoteAppSY_UI
 
         private void selectedTitleNameTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void selectedTitleTextBox_TextChanged(object sender, EventArgs e)
