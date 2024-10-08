@@ -33,6 +33,7 @@ namespace NoteAppSY_UI
             this.notesCategory = new System.Windows.Forms.ComboBox();
             this.notesCategoryText = new System.Windows.Forms.TextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,17 +51,17 @@ namespace NoteAppSY_UI
             this.selectedTitleNameTextBox = new System.Windows.Forms.TextBox();
             this.selectedTitleTextBox = new System.Windows.Forms.TextBox();
             this.statusGroupBox = new System.Windows.Forms.Panel();
-            this.removePictureBox = new System.Windows.Forms.PictureBox();
-            this.addPictureBox = new System.Windows.Forms.PictureBox();
             this.editPictureBox = new System.Windows.Forms.PictureBox();
+            this.addPictureBox = new System.Windows.Forms.PictureBox();
+            this.removePictureBox = new System.Windows.Forms.PictureBox();
             this.createTimeTextBox = new System.Windows.Forms.TextBox();
             this.createSelectedTextBox = new System.Windows.Forms.TextBox();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.statusGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.removePictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.editPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.removePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // notesCategory
@@ -90,6 +91,7 @@ namespace NoteAppSY_UI
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -97,6 +99,13 @@ namespace NoteAppSY_UI
             this.toolStripButton1.Size = new System.Drawing.Size(46, 24);
             this.toolStripButton1.Text = "File";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -277,16 +286,16 @@ namespace NoteAppSY_UI
             this.statusGroupBox.TabIndex = 13;
             this.statusGroupBox.Paint += new System.Windows.Forms.PaintEventHandler(this.statusGroupBox_Paint);
             // 
-            // removePictureBox
+            // editPictureBox
             // 
-            this.removePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("removePictureBox.Image")));
-            this.removePictureBox.Location = new System.Drawing.Point(165, 0);
-            this.removePictureBox.Name = "removePictureBox";
-            this.removePictureBox.Size = new System.Drawing.Size(30, 30);
-            this.removePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.removePictureBox.TabIndex = 4;
-            this.removePictureBox.TabStop = false;
-            this.removePictureBox.Click += new System.EventHandler(this.removePictureBox_Click);
+            this.editPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("editPictureBox.Image")));
+            this.editPictureBox.Location = new System.Drawing.Point(103, 0);
+            this.editPictureBox.Name = "editPictureBox";
+            this.editPictureBox.Size = new System.Drawing.Size(30, 30);
+            this.editPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.editPictureBox.TabIndex = 4;
+            this.editPictureBox.TabStop = false;
+            this.editPictureBox.Click += new System.EventHandler(this.editPictureBox_Click);
             // 
             // addPictureBox
             // 
@@ -299,16 +308,16 @@ namespace NoteAppSY_UI
             this.addPictureBox.TabStop = false;
             this.addPictureBox.Click += new System.EventHandler(this.addPictureBox_Click);
             // 
-            // editPictureBox
+            // removePictureBox
             // 
-            this.editPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("editPictureBox.Image")));
-            this.editPictureBox.Location = new System.Drawing.Point(103, 0);
-            this.editPictureBox.Name = "editPictureBox";
-            this.editPictureBox.Size = new System.Drawing.Size(30, 30);
-            this.editPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.editPictureBox.TabIndex = 4;
-            this.editPictureBox.TabStop = false;
-            this.editPictureBox.Click += new System.EventHandler(this.editPictureBox_Click);
+            this.removePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("removePictureBox.Image")));
+            this.removePictureBox.Location = new System.Drawing.Point(165, 0);
+            this.removePictureBox.Name = "removePictureBox";
+            this.removePictureBox.Size = new System.Drawing.Size(30, 30);
+            this.removePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.removePictureBox.TabIndex = 4;
+            this.removePictureBox.TabStop = false;
+            this.removePictureBox.Click += new System.EventHandler(this.removePictureBox_Click);
             // 
             // createTimeTextBox
             // 
@@ -332,12 +341,12 @@ namespace NoteAppSY_UI
             this.createSelectedTextBox.TabIndex = 15;
             this.createSelectedTextBox.TextChanged += new System.EventHandler(this.createSelectedTextBox_TextChanged);
             // 
-            // saveToolStripMenuItem
+            // loadToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -367,9 +376,9 @@ namespace NoteAppSY_UI
             this.toolStrip1.PerformLayout();
             this.statusGroupBox.ResumeLayout(false);
             this.statusGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.removePictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.editPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.removePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,6 +411,7 @@ namespace NoteAppSY_UI
         private System.Windows.Forms.TextBox createTimeTextBox;
         private System.Windows.Forms.TextBox createSelectedTextBox;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
     }
 }
 

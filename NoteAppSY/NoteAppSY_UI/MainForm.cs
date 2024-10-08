@@ -54,10 +54,80 @@ namespace NoteAppSY_UI
         {
 
         }
-
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SerializeNotesToFile(@"d:\notes.txt");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
+            saveFileDialog.Title = "Сохранить заметки";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Сохранение заметок в текстовый файл
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        foreach (Note note in _note)
+                        {
+                            // Сохранение всех свойств заметки в одну строку, разделенную символом ';'
+                            string noteData = $"{note.Name};{note.Text};{note.Category};{note.LastUpdate.ToString("yyyy-MM-dd HH:mm:ss")};{note.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+                            writer.WriteLine(noteData);
+                        }
+                    }
+
+                    MessageBox.Show("Заметки успешно сохранены!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при сохранении: " + ex.Message);
+                }
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
+            openFileDialog.Title = "Загрузить заметки";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Очищаем список заметок
+                    _note.Clear();
+
+                    // Загрузка заметок из текстового файла
+                    using (StreamReader reader = new StreamReader(openFileDialog.FileName))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            // Разделение строки на отдельные значения
+                            string[] noteParts = line.Split(';');
+
+                            // Создание новой заметки и инициализация ее свойств
+                            Note note = new Note
+                            {
+                                Name = noteParts[0],
+                                Text = noteParts[1],
+                                Category = noteParts[2],
+                                LastUpdate = DateTime.Parse(noteParts[3]),
+                                CreateTime = DateTime.Parse(noteParts[4])
+                            };
+
+                            _note.Add(note);
+                            UpdateNotesListBox();
+                        }
+                    }
+
+                    MessageBox.Show("Заметки успешно загружены!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при загрузке: " + ex.Message);
+                }
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -399,7 +469,6 @@ namespace NoteAppSY_UI
 
         }
 
-        
     }
     
 }
