@@ -37,12 +37,15 @@ namespace NoteAppSY_UI
         {
             InitializeComponent();
             this.Text = "Редактор";
-            foreach (Category category in Enum.GetValues(typeof(Category)))
+            foreach (Category category in Enum.GetValues(typeof(Category))
+                .Cast<Category>() // Преобразуем Enum в коллекцию Category
+                .Where(c => c != Category.All)) // Фильтруем, чтобы удалить Category.All
             {
                 editNotesCategory.Items.Add(category);
             }
             editNotesCategory.SelectedIndex = 0; // Установка начального значения
         }
+
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
         {
 

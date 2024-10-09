@@ -96,7 +96,7 @@ namespace NoteAppSY_UI
             this.exitToolStripMenuItem});
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(46, 28);
+            this.toolStripButton1.Size = new System.Drawing.Size(46, 24);
             this.toolStripButton1.Text = "File";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -131,7 +131,7 @@ namespace NoteAppSY_UI
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 28);
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 24);
             this.toolStripButton2.Text = "Edit";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -164,13 +164,13 @@ namespace NoteAppSY_UI
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(55, 28);
+            this.toolStripButton3.Size = new System.Drawing.Size(55, 24);
             this.toolStripButton3.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -184,7 +184,7 @@ namespace NoteAppSY_UI
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -309,6 +309,7 @@ namespace NoteAppSY_UI
             this.editPictureBox.TabIndex = 4;
             this.editPictureBox.TabStop = false;
             this.editPictureBox.Click += new System.EventHandler(this.editPictureBox_Click);
+            this.editPictureBox.MouseHover += new System.EventHandler(this.editPictureBox_MouseHover);
             // 
             // addPictureBox
             // 
@@ -320,6 +321,7 @@ namespace NoteAppSY_UI
             this.addPictureBox.TabIndex = 4;
             this.addPictureBox.TabStop = false;
             this.addPictureBox.Click += new System.EventHandler(this.addPictureBox_Click);
+            this.addPictureBox.MouseHover += new System.EventHandler(this.addPictureBox_MouseHover);
             // 
             // removePictureBox
             // 
@@ -331,6 +333,7 @@ namespace NoteAppSY_UI
             this.removePictureBox.TabIndex = 4;
             this.removePictureBox.TabStop = false;
             this.removePictureBox.Click += new System.EventHandler(this.removePictureBox_Click);
+            this.removePictureBox.MouseHover += new System.EventHandler(this.removePictureBox_MouseHover);
             // 
             // createTimeTextBox
             // 

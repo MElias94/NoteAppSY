@@ -47,10 +47,10 @@ namespace NoteAppSY_UI
             this.NoteTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.NoteTextBox.Location = new System.Drawing.Point(12, 134);
+            this.NoteTextBox.Location = new System.Drawing.Point(12, 125);
             this.NoteTextBox.Multiline = true;
             this.NoteTextBox.Name = "NoteTextBox";
-            this.NoteTextBox.Size = new System.Drawing.Size(571, 272);
+            this.NoteTextBox.Size = new System.Drawing.Size(571, 281);
             this.NoteTextBox.TabIndex = 0;
             this.NoteTextBox.TextChanged += new System.EventHandler(this.NoteTextBox_TextChanged);
             // 
@@ -123,7 +123,7 @@ namespace NoteAppSY_UI
             // 
             this.createSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.createSelectedTextBox.Enabled = false;
-            this.createSelectedTextBox.Location = new System.Drawing.Point(76, 104);
+            this.createSelectedTextBox.Location = new System.Drawing.Point(76, 95);
             this.createSelectedTextBox.Name = "createSelectedTextBox";
             this.createSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.createSelectedTextBox.TabIndex = 19;
@@ -133,7 +133,7 @@ namespace NoteAppSY_UI
             // 
             this.createTimeTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.createTimeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.createTimeTextBox.Location = new System.Drawing.Point(12, 104);
+            this.createTimeTextBox.Location = new System.Drawing.Point(12, 95);
             this.createTimeTextBox.Multiline = true;
             this.createTimeTextBox.Name = "createTimeTextBox";
             this.createTimeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -146,7 +146,7 @@ namespace NoteAppSY_UI
             // 
             this.lastUpdateSelectedTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lastUpdateSelectedTextBox.Enabled = false;
-            this.lastUpdateSelectedTextBox.Location = new System.Drawing.Point(255, 104);
+            this.lastUpdateSelectedTextBox.Location = new System.Drawing.Point(255, 95);
             this.lastUpdateSelectedTextBox.Name = "lastUpdateSelectedTextBox";
             this.lastUpdateSelectedTextBox.Size = new System.Drawing.Size(94, 22);
             this.lastUpdateSelectedTextBox.TabIndex = 17;
@@ -156,7 +156,7 @@ namespace NoteAppSY_UI
             // 
             this.updateTimeTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.updateTimeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.updateTimeTextBox.Location = new System.Drawing.Point(183, 104);
+            this.updateTimeTextBox.Location = new System.Drawing.Point(183, 95);
             this.updateTimeTextBox.Multiline = true;
             this.updateTimeTextBox.Name = "updateTimeTextBox";
             this.updateTimeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;

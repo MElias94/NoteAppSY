@@ -15,14 +15,10 @@ namespace NoteAppSY_UI
 {
     public partial class MainForm : Form
     {
-        /// <summary>
-        /// Список заметок
+        ///<summary>
+        ///Список заметок
         /// </summary>
-        private List<Note> _note = new List<Note>();
-        /// <summary>
-        /// Фильтрованный по категории список заметок   
-        /// </summary>
-        private List<Note> _filteredNotes = new List<Note>();
+        private NoteList _noteList = new NoteList();
 
         public MainForm()
         {
@@ -53,7 +49,7 @@ namespace NoteAppSY_UI
                     // Сохранение заметок в текстовый файл
                     using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
                     {
-                        foreach (Note note in _note)
+                        foreach (Note note in _noteList.Notes)
                         {
                             // Сохранение всех свойств заметки в одну строку, разделенную символом ';'
                             string noteData = $"{note.Name};{note.Text};{note.Category};{note.LastUpdate.ToString("yyyy-MM-dd HH:mm:ss")};{note.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
@@ -81,7 +77,7 @@ namespace NoteAppSY_UI
                 try
                 {
                     // Очищаем список заметок
-                    _note.Clear();
+                    _noteList.Notes.Clear();
 
                     // Загрузка заметок из текстового файла
                     using (StreamReader reader = new StreamReader(openFileDialog.FileName))
@@ -95,6 +91,7 @@ namespace NoteAppSY_UI
                             // Создание новой заметки и инициализация ее свойств
                             Note note = new Note
                             {
+                                Id = Guid.NewGuid(),
                                 Name = noteParts[0],
                                 Text = noteParts[1],
                                 Category = noteParts[2],
@@ -102,8 +99,11 @@ namespace NoteAppSY_UI
                                 CreateTime = DateTime.Parse(noteParts[4])
                             };
 
-                            _note.Add(note);
+                            _noteList.Notes.Add(note);
                             UpdateNotesListBox();
+                            categoryComboBox_SelectedIndexChanged(sender, e);
+                            ClearTextForms();
+
                         }
                     }
 
@@ -124,6 +124,7 @@ namespace NoteAppSY_UI
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Note newNote = new Note();
+            newNote.Id = Guid.NewGuid();
             newNote.Name = "Новая заметка";
             newNote.Category = "Other";
             newNote.LastUpdate = DateTime.Now;
@@ -134,8 +135,10 @@ namespace NoteAppSY_UI
             if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit создаем новую заметку
             {
                 var updatedNote = edit.Note;
-                _note.Add(updatedNote);
+                _noteList.Notes.Add(updatedNote);
                 UpdateNotesListBox();
+                categoryComboBox_SelectedIndexChanged(sender, e);
+                notesListBox.SelectedIndex = 0;
             }
         }
 
@@ -147,19 +150,21 @@ namespace NoteAppSY_UI
                 MessageBox.Show("Select note before editing");
                 return;
             }
-            //Получаем текущую выбранную дату
+            //Получаем текущую выбранную заметку
             var selectedIndex = notesListBox.SelectedIndex;
-            var selectedNote = _filteredNotes[selectedIndex];
+            var selectedNote = _noteList.FilteredNotes[selectedIndex];
             var edit = new EditForm(); //Создаем форму 
             edit.Note = selectedNote; //Передаем форме данные
             edit.ShowDialog(); //Отображаем форму для редактирования
             var updatedNote = edit.Note; //Забираем измененные данные
             //Осталось удалить старые данные по выбранному индексу
             // и заменить их на обновленные
-            int originalIndex = _note.IndexOf(selectedNote);
-            _note.RemoveAt(originalIndex);
-            _note.Insert(originalIndex, updatedNote);
+            int originalIndex = _noteList.Notes.IndexOf(selectedNote);
+            _noteList.Notes.RemoveAt(originalIndex);
+            _noteList.Notes.Insert(originalIndex, updatedNote);
             UpdateNotesListBox();
+            categoryComboBox_SelectedIndexChanged(sender, e);
+            notesListBox.SelectedIndex = 0;
         }
         /// <summary>
         /// Код для заполнения формы заметками
@@ -170,11 +175,12 @@ namespace NoteAppSY_UI
             {
                 var note = new Note()
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Some text" + i,
                     LastUpdate = DateTime.Now,
                     Text = i + " Note " + i
                 };
-                _note.Add(note);
+                _noteList.Notes.Add(note);
                 var name = note.Name;
                 var time = note.LastUpdate.ToShortDateString();
                 var text = note.Text;
@@ -182,32 +188,52 @@ namespace NoteAppSY_UI
                 UpdateNotesListBox();
             }
         }
-
         private void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Проверяем, что элемент выбран
             if (notesListBox.SelectedIndex != -1)
             {
-                DialogResult result = MessageBox.Show("Do you really want to remove this note: " + _filteredNotes[notesListBox.SelectedIndex].Name,
+                Note selectedNote = _noteList.FilteredNotes[notesListBox.SelectedIndex];
+                DialogResult result = MessageBox.Show("Do you really want to remove this note: " + _noteList.FilteredNotes[notesListBox.SelectedIndex].Name,
                     "Remove note",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question);
                 if (result == DialogResult.OK)
                 {
-                    // Удаляем элемент из _note
+                    // Находим заметку по Id в основном списке _note
+                    int noteIndex = _noteList.Notes.FindIndex(n => n.Id == selectedNote.Id);
                     int selectedIndex = notesListBox.SelectedIndex;
-                    _note.RemoveAt(selectedIndex);
 
-                    // Удаляем элемент из notesListBox.Items
-                    notesListBox.Items.RemoveAt(selectedIndex);
+                    if (noteIndex != -1)
+                    {
+                        _noteList.Notes.RemoveAt(noteIndex); // Удаляем заметку из основного списка _note
+                    }
+
+                    // Удаляем заметку из _noteList.FilteredNotes
+                    _noteList.FilteredNotes.RemoveAt(notesListBox.SelectedIndex);
+
+                    // Обновляем список заметок
+                    UpdateNotesListBox();
 
                     // Обновляем SelectedIndex, если нужно
-                    if (notesListBox.Items.Count > 0 && selectedIndex >= notesListBox.Items.Count)
+                    if (notesListBox.Items.Count > 0)
                     {
-                        notesListBox.SelectedIndex = notesListBox.Items.Count - 1;
+                        // Выбираем следующий элемент, если не последний
+                        if (selectedIndex < notesListBox.Items.Count)
+                        {
+                            notesListBox.SelectedIndex = selectedIndex;
+                        }
+                        // Выбираем предыдущий элемент, если не первый
+                        else if (selectedIndex > 0)
+                        {
+                            notesListBox.SelectedIndex = selectedIndex - 1;
+                        }
+                        // Если удален единственный элемент, список пуст - ничего не выбираем
                     }
-                    // Перерисовываем список
-                    notesListBox.Refresh();
+                    else if (notesListBox.Items.Count == 0)
+                    {
+                        ClearTextForms();
+                    }
                 }
             }
         }
@@ -218,20 +244,26 @@ namespace NoteAppSY_UI
             about.ShowDialog();
         }
 
+        // Действие при смене категории
         private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (notesCategory.SelectedItem != null)
             {
                 Category selectedCategory = (Category)notesCategory.SelectedItem;
-                notesListBox.Items.Clear();
 
+                // Очищаем _noteList.FilteredNotes
+                _noteList.FilteredNotes.Clear();
+
+                // Фильтруем заметки
                 switch (selectedCategory)
                 {
                     case Category.All:
-                        _filteredNotes = _note;
+                        // Заполняем _noteList.FilteredNotes всеми заметками
+                        _noteList.FilteredNotes.AddRange(_noteList.Notes); // Важно!
                         break;
                     default:
-                        _filteredNotes = _note.Where(n =>
+                        // Фильтруем заметки по категории
+                        _noteList.FilteredNotes.AddRange(_noteList.Notes.Where(n =>
                         {
                             Category category;
                             if (Enum.TryParse<Category>(n.Category, out category))
@@ -243,15 +275,12 @@ namespace NoteAppSY_UI
                                 // Обработка некорректного значения
                                 return false;
                             }
-                        }).ToList();
+                        })); // Важно!
                         break;
                 }
 
-                foreach (var note in _filteredNotes)
-                {
-                    // Получение названия заметки и даты
-                    UpdateNotesListBox();
-                }
+                // Обновляем список заметок в notesListBox
+                UpdateNotesListBox();
             }
         }
 
@@ -269,84 +298,47 @@ namespace NoteAppSY_UI
             // Проверяем, что элемент выбран
             if (notesListBox.SelectedIndex != -1)
             {
-                selectedTitleTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].Name;
-                noteTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].Text;
-                selectedCategoryNameTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].Category;
-                lastUpdateSelectedTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].LastUpdate.ToShortDateString();
-                createSelectedTextBox.Text = _filteredNotes[notesListBox.SelectedIndex].CreateTime.ToShortDateString();
+                selectedTitleTextBox.Text = _noteList.FilteredNotes[notesListBox.SelectedIndex].Name;
+                noteTextBox.Text = _noteList.FilteredNotes[notesListBox.SelectedIndex].Text;
+                selectedCategoryNameTextBox.Text = _noteList.FilteredNotes[notesListBox.SelectedIndex].Category;
+                lastUpdateSelectedTextBox.Text = _noteList.FilteredNotes[notesListBox.SelectedIndex].LastUpdate.ToShortDateString();
+                createSelectedTextBox.Text = _noteList.FilteredNotes[notesListBox.SelectedIndex].CreateTime.ToShortDateString();
             }
         }
 
         private void addPictureBox_Click(object sender, EventArgs e)
         {
-            Note newNote = new Note();
-            newNote.Name = "Новая заметка";
-            newNote.Category = "Other";
-            newNote.LastUpdate = DateTime.Now;
-            newNote.CreateTime = DateTime.Now;
-            var edit = new EditForm(); //Создаем форму 
-            edit.Note = newNote; //Передаем форме данные
-            edit.ShowDialog(); //Отображаем форму для редактирования
-            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit создаем новую заметку
-            {
-                var updatedNote = edit.Note;
-                _note.Add(updatedNote);
-                UpdateNotesListBox();
-            }
+            addNoteToolStripMenuItem_Click(sender, e);
+        }
+        private void addPictureBox_MouseHover(object sender, EventArgs e)
+        {
+            // Создайте объект ToolTip
+            ToolTip toolTip = new ToolTip();
+            // Задайте текст подсказки
+            toolTip.SetToolTip(addPictureBox, "Добавить заметку");
         }
         private void editPictureBox_Click(object sender, EventArgs e)
         {
-            if (notesListBox.SelectedIndex == -1)
-            {
-                // Если ничего не выбрано, выводим предупреждение
-                MessageBox.Show("Select note before editing");
-                return;
-            }
-            //Получаем текущую выбранную заметку
-            var selectedIndex = notesListBox.SelectedIndex;
-            var selectedNote = _filteredNotes[selectedIndex];
-            var edit = new EditForm(); //Создаем форму 
-            edit.Note = selectedNote; //Передаем форме данные
-            edit.ShowDialog(); //Отображаем форму для редактирования
-            var updatedNote = edit.Note; //Забираем измененные данные
-            //Осталось удалить старые данные по выбранному индексу
-            // и заменить их на обновленные
-            int originalIndex = _note.IndexOf(selectedNote);
-            _note.RemoveAt(originalIndex);
-            _note.Insert(originalIndex, updatedNote);
-            UpdateNotesListBox();
+            editNoteToolStripMenuItem_Click(sender, e);
         }
-
+        private void editPictureBox_MouseHover(object sender, EventArgs e)
+        {
+            // Создайте объект ToolTip
+            ToolTip toolTip = new ToolTip();
+            // Задайте текст подсказки
+            toolTip.SetToolTip(editPictureBox, "Изменить заметку");
+        }
         private void removePictureBox_Click(object sender, EventArgs e)
         {
-            // Проверяем, что элемент выбран
-            if (notesListBox.SelectedIndex != -1)
-            {
-                DialogResult result = MessageBox.Show("Do you really want to remove this note: " + _filteredNotes[notesListBox.SelectedIndex].Name,
-                    "Remove note",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.OK)
-                {
-                    // Удаляем элемент из _note
-                    int selectedIndex = notesListBox.SelectedIndex;
-                    _note.RemoveAt(selectedIndex);
-
-                    // Удаляем элемент из notesListBox.Items
-                    notesListBox.Items.RemoveAt(selectedIndex);
-
-                    // Обновляем SelectedIndex, если нужно
-                    if (notesListBox.Items.Count > 0 && selectedIndex >= notesListBox.Items.Count)
-                    {
-                        notesListBox.SelectedIndex = notesListBox.Items.Count - 1;
-                    }
-                    // Перерисовываем список
-                    notesListBox.Refresh();
-                }
-                
-            }
+            removeNoteToolStripMenuItem_Click(sender, e);
         }
-
+        private void removePictureBox_MouseHover(object sender, EventArgs e)
+        {
+            // Создайте объект ToolTip
+            ToolTip toolTip = new ToolTip();
+            // Задайте текст подсказки
+            toolTip.SetToolTip(removePictureBox, "Удалить заметку");
+        }
         private void noteTextBox_TextChanged(object sender, EventArgs e)
         {
 
@@ -355,7 +347,7 @@ namespace NoteAppSY_UI
         private void SerializeNotesToFile(string filePath)
         {
             // Сериализация списка заметок в JSON
-            string json = JsonConvert.SerializeObject(_note, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(_noteList.Notes, Formatting.Indented);
 
             // Запись JSON в файл
             File.WriteAllText(filePath, json);
@@ -363,27 +355,35 @@ namespace NoteAppSY_UI
 
         private void DeserializeNotesFromFile(string filePath)
         {
-            // Проверка существования файла
             if (File.Exists(filePath))
             {
-                // Чтение JSON из файла
                 string json = File.ReadAllText(filePath);
-
-                // Десериализация JSON в список заметок
-                _note = JsonConvert.DeserializeObject<List<Note>>(json);
-
-                // Обновление ListBox (если нужно)
+                var notes = JsonConvert.DeserializeObject<List<Note>>(json);
+                _noteList.SetNotes(notes);
                 UpdateNotesListBox();
             }
         }
 
-        // Метод для обновления ListBox
-        private void UpdateNotesListBox()
+        /// <summary>
+        /// Метод для очистки текстовых форм
+        /// </summary>
+        private void ClearTextForms()
+        {
+            selectedTitleTextBox.Clear();
+            noteTextBox.Clear();
+            selectedCategoryNameTextBox.Clear();
+            lastUpdateSelectedTextBox.Clear();
+            createSelectedTextBox.Clear();
+        }
+        /// <summary>
+        /// Метод для обновления notesListBox
+        /// </summary>
+        public void UpdateNotesListBox()
         {
             notesListBox.Items.Clear(); // Очищаем ListBox
             // Сортируем заметки по дате изменения (новые сверху)
-            _filteredNotes.Sort((x, y) => y.LastUpdate.CompareTo(x.LastUpdate));
-            foreach (var note in _filteredNotes)
+            _noteList.FilteredNotes.Sort((x, y) => y.LastUpdate.CompareTo(x.LastUpdate));
+            foreach (var note in _noteList.FilteredNotes)
             {
                 string name = note.Name;
                 string lastUpdateD = note.LastUpdate.ToString("dd.MM.yyyy");
