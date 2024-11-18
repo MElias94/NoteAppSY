@@ -103,21 +103,21 @@ namespace NoteAppSY_UI
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
-            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.loadToolStripMenuItem.Text = "Import";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.saveToolStripMenuItem.Text = "Export";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -170,7 +170,7 @@ namespace NoteAppSY_UI
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -193,6 +193,7 @@ namespace NoteAppSY_UI
             this.notesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.notesListBox.FormattingEnabled = true;
+            this.notesListBox.HorizontalScrollbar = true;
             this.notesListBox.ItemHeight = 16;
             this.notesListBox.Location = new System.Drawing.Point(12, 88);
             this.notesListBox.Name = "notesListBox";
@@ -211,6 +212,7 @@ namespace NoteAppSY_UI
             this.noteTextBox.Multiline = true;
             this.noteTextBox.Name = "noteTextBox";
             this.noteTextBox.ReadOnly = true;
+            this.noteTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.noteTextBox.Size = new System.Drawing.Size(493, 304);
             this.noteTextBox.TabIndex = 5;
             this.noteTextBox.TextChanged += new System.EventHandler(this.noteTextBox_TextChanged);
@@ -247,7 +249,7 @@ namespace NoteAppSY_UI
             this.updateTimeTextBox.Multiline = true;
             this.updateTimeTextBox.Name = "updateTimeTextBox";
             this.updateTimeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.updateTimeTextBox.Size = new System.Drawing.Size(79, 24);
+            this.updateTimeTextBox.Size = new System.Drawing.Size(62, 24);
             this.updateTimeTextBox.TabIndex = 8;
             this.updateTimeTextBox.Text = "Modified";
             this.updateTimeTextBox.TextChanged += new System.EventHandler(this.updateTimeTextBox_TextChanged);
@@ -290,12 +292,13 @@ namespace NoteAppSY_UI
             // statusGroupBox
             // 
             this.statusGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.statusGroupBox.AutoSize = true;
             this.statusGroupBox.Controls.Add(this.editPictureBox);
             this.statusGroupBox.Controls.Add(this.addPictureBox);
             this.statusGroupBox.Controls.Add(this.removePictureBox);
             this.statusGroupBox.Location = new System.Drawing.Point(12, 402);
             this.statusGroupBox.Name = "statusGroupBox";
-            this.statusGroupBox.Size = new System.Drawing.Size(245, 30);
+            this.statusGroupBox.Size = new System.Drawing.Size(245, 33);
             this.statusGroupBox.TabIndex = 13;
             this.statusGroupBox.Paint += new System.Windows.Forms.PaintEventHandler(this.statusGroupBox_Paint);
             // 
@@ -343,7 +346,7 @@ namespace NoteAppSY_UI
             this.createTimeTextBox.Multiline = true;
             this.createTimeTextBox.Name = "createTimeTextBox";
             this.createTimeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.createTimeTextBox.Size = new System.Drawing.Size(79, 24);
+            this.createTimeTextBox.Size = new System.Drawing.Size(58, 24);
             this.createTimeTextBox.TabIndex = 14;
             this.createTimeTextBox.Text = "Created";
             this.createTimeTextBox.TextChanged += new System.EventHandler(this.createTimeTextBox_TextChanged);

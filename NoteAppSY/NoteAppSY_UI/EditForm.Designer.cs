@@ -50,6 +50,7 @@ namespace NoteAppSY_UI
             this.NoteTextBox.Location = new System.Drawing.Point(12, 125);
             this.NoteTextBox.Multiline = true;
             this.NoteTextBox.Name = "NoteTextBox";
+            this.NoteTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.NoteTextBox.Size = new System.Drawing.Size(571, 281);
             this.NoteTextBox.TabIndex = 0;
             this.NoteTextBox.TextChanged += new System.EventHandler(this.NoteTextBox_TextChanged);

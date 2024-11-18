@@ -30,6 +30,7 @@ namespace NoteAppSY_UI
                     editNotesCategory.Text = _note.Category;
                     createSelectedTextBox.Text = _note.CreateTime.ToShortDateString();
                     lastUpdateSelectedTextBox.Text = _note.LastUpdate.ToShortDateString();
+                    originalText = NoteTextBox.Text; // Сохраняем исходный текст при загрузке формы
                 }
             }
         }
@@ -45,6 +46,8 @@ namespace NoteAppSY_UI
             }
             editNotesCategory.SelectedIndex = 0; // Установка начального значения
         }
+
+        private string originalText; // Добавлено поле для хранения исходного текста
 
         private void NoteTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -69,7 +72,7 @@ namespace NoteAppSY_UI
         }
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            if (NoteTextBox.Text.Length > 0)
+            if (NoteTextBox.Text != originalText) // Условие: был ли текст изменен
             {
                 DialogResult result = MessageBox.Show("Close without saving?",
                     "Close",

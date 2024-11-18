@@ -138,7 +138,7 @@ namespace NoteAppSY_UI
                 _noteList.Notes.Add(updatedNote);
                 UpdateNotesListBox();
                 categoryComboBox_SelectedIndexChanged(sender, e);
-                notesListBox.SelectedIndex = 0;
+                //notesListBox.SelectedIndex = 0;
             }
         }
 
@@ -156,15 +156,19 @@ namespace NoteAppSY_UI
             var edit = new EditForm(); //Создаем форму 
             edit.Note = selectedNote; //Передаем форме данные
             edit.ShowDialog(); //Отображаем форму для редактирования
-            var updatedNote = edit.Note; //Забираем измененные данные
-            //Осталось удалить старые данные по выбранному индексу
-            // и заменить их на обновленные
-            int originalIndex = _noteList.Notes.IndexOf(selectedNote);
-            _noteList.Notes.RemoveAt(originalIndex);
-            _noteList.Notes.Insert(originalIndex, updatedNote);
-            UpdateNotesListBox();
-            categoryComboBox_SelectedIndexChanged(sender, e);
-            notesListBox.SelectedIndex = 0;
+            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit обновляем список
+            {
+                var updatedNote = edit.Note; //Забираем измененные данные
+                //Осталось удалить старые данные по выбранному индексу
+                // и заменить их на обновленные
+                int originalIndex = _noteList.Notes.IndexOf(selectedNote);
+                _noteList.Notes.RemoveAt(originalIndex);
+                _noteList.Notes.Insert(originalIndex, updatedNote);
+                UpdateNotesListBox();
+                categoryComboBox_SelectedIndexChanged(sender, e);
+                notesListBox.SelectedIndex = 0;
+            }
+            else notesListBox.SelectedIndex = selectedIndex;
         }
         /// <summary>
         /// Код для заполнения формы заметками
