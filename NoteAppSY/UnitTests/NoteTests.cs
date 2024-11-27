@@ -38,6 +38,17 @@ namespace UnitTests
             var ex = Assert.Throws<ArgumentException>(() => note.Name = invalidName);
             ClassicAssert.AreEqual("Note title symbols should not exceed 35 characters.", ex.Message);
         }
+        [Test]
+        public void Note_Name_Empty_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var note = new Note();
+            var invalidName = new string('A', 0); // 0 символов
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentException>(() => note.Name = invalidName);
+            ClassicAssert.AreEqual("Note title should not be empty.", ex.Message);
+        }
 
         [Test]
         public void Note_Properties_ShouldBeSetCorrectly()

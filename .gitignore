@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+/NoteAppSY/lnstallScripts/Installers/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

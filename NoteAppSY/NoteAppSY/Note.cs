@@ -23,6 +23,11 @@ namespace NoteAppSY
                 {
                     throw new ArgumentException("Note title symbols should not exceed 35 characters.");
                 }
+
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Note title should not be empty.");
+                }
                 _name = value;
             }
         }

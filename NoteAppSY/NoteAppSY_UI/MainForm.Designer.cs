@@ -197,6 +197,7 @@ namespace NoteAppSY_UI
             this.notesListBox.ItemHeight = 16;
             this.notesListBox.Location = new System.Drawing.Point(12, 88);
             this.notesListBox.Name = "notesListBox";
+            this.notesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.notesListBox.Size = new System.Drawing.Size(258, 308);
             this.notesListBox.TabIndex = 3;
             this.notesListBox.SelectedIndexChanged += new System.EventHandler(this.notesListBox_SelectedIndexChanged);
