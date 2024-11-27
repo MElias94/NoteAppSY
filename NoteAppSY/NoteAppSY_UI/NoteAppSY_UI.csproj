@@ -111,4 +111,14 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>md $(SolutionDir)lnstallScripts\release
+xcopy $(ProjectDir)$(OutDir)*.dll $(SolutionDir)lnstallScripts\release\
+xcopy /Y /F "$(ProjectDir)$(OutDir)NoteAppSY_UI.exe" "$(SolutionDir)lnstallScripts\release\NoteAppSY.exe"*
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $(SolutionDir)lnstallScripts\NoteAppSY.iss</PostBuildEvent>
+  </PropertyGroup>
 </Project>

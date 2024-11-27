@@ -19,6 +19,7 @@ namespace NoteAppSY_UI
         ///Список заметок
         /// </summary>
         private readonly NoteList _noteList = new NoteList();
+
         private readonly NoteFileManager _fileManager = new NoteFileManager();
 
         public MainForm()
@@ -42,25 +43,40 @@ namespace NoteAppSY_UI
             ExportNotes();
         }
 
+        /// <summary>
+        /// Экспорт заметок
+        /// </summary>
         public void ExportNotes()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
+            saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|JSON файлы (*.json)|*.json";
             saveFileDialog.Title = "Сохранить заметки";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // Сохранение заметок в текстовый файл
-                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    switch (saveFileDialog.FilterIndex)
                     {
-                        foreach (Note note in _noteList.Notes)
-                        {
-                            // Сохранение всех свойств заметки в одну строку, разделенную символом ';'
-                            string noteData = $"{note.Name};{note.Text};{note.Category};{note.LastUpdate.ToString("yyyy-MM-dd HH:mm:ss")};{note.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
-                            writer.WriteLine(noteData);
-                        }
+                        case 1: // Текстовый файл (.txt)
+                            using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                            {
+                                foreach (Note note in _noteList.Notes)
+                                {
+                                    // Сохраняем каждую заметку в виде одной строки, разделенной символом ';'
+                                    string noteData = $"{note.Name};{note.Text};{note.Category};{note.LastUpdate.ToString("yyyy-MM-dd HH:mm:ss")};{note.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+                                    writer.WriteLine(noteData);
+                                }
+                            }
+                            break;
+
+                        case 2: // JSON файл (.json)
+                            var notesJson = JsonConvert.SerializeObject(_noteList.Notes, Formatting.Indented); // Предполагает использование Newtonsoft.Json
+                            File.WriteAllText(saveFileDialog.FileName, notesJson);
+                            break;
+
+                        default:
+                            throw new NotSupportedException($"Неизвестный формат файла: {saveFileDialog.FilterIndex}");
                     }
 
                     MessageBox.Show("Заметки успешно сохранены!");
@@ -76,10 +92,13 @@ namespace NoteAppSY_UI
         {
             ImportNotes();
         }
+        /// <summary>
+        /// Импорт заметок
+        /// </summary>
         public void ImportNotes()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
+            openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|JSON файлы (*.json)|*.json";
             openFileDialog.Title = "Загрузить заметки";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -89,32 +108,56 @@ namespace NoteAppSY_UI
                     // Очищаем список заметок
                     _noteList.Notes.Clear();
 
-                    // Загрузка заметок из текстового файла
-                    using (StreamReader reader = new StreamReader(openFileDialog.FileName))
+                    switch (openFileDialog.FilterIndex)
                     {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            // Разделение строки на отдельные значения
-                            string[] noteParts = line.Split(';');
-
-                            // Создание новой заметки и инициализация ее свойств
-                            Note note = new Note
+                        case 1: // Текстовый файл (.txt)
+                            using (StreamReader reader = new StreamReader(openFileDialog.FileName))
                             {
-                                Id = Guid.NewGuid(),
-                                Name = noteParts[0],
-                                Text = noteParts[1],
-                                Category = noteParts[2],
-                                LastUpdate = DateTime.Parse(noteParts[3]),
-                                CreateTime = DateTime.Parse(noteParts[4])
-                            };
+                                string line;
+                                while ((line = reader.ReadLine()) != null)
+                                {
+                                    // Разделение строки на отдельные значения
+                                    string[] noteParts = line.Split(';');
 
-                            _noteList.Notes.Add(note);
-                            UpdateNotesListBox();
-                            CategoryChange();
-                            ClearTextForms();
+                                    // Проверка, что количество элементов соответствует ожидаемому
+                                    if (noteParts.Length < 5)
+                                    {
+                                        throw new FormatException("Неверное количество полей в строке");
+                                    }
 
-                        }
+                                    // Создание новой заметки и инициализация ее свойств
+                                    Note note = new Note
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = noteParts[0],
+                                        Text = noteParts[1],
+                                        Category = noteParts[2],
+                                        LastUpdate = DateTime.Parse(noteParts[3]),
+                                        CreateTime = DateTime.Parse(noteParts[4])
+                                    };
+
+                                    _noteList.Notes.Add(note);
+                                    UpdateNotesListBox();
+                                    CategoryChange();
+                                    ClearTextForms();
+                                }
+                            }
+                            break;
+
+                        case 2: // JSON файл (.json)
+                            List<Note> importedNotes = JsonConvert.DeserializeObject<List<Note>>(File.ReadAllText(openFileDialog.FileName));
+                            foreach (var note in importedNotes)
+                            {
+                                note.Id = Guid.NewGuid(); // Обновляем GUID для новых заметок
+                                _noteList.Notes.Add(note);
+                                UpdateNotesListBox();
+                                CategoryChange();
+                                ClearTextForms();
+                            }
+                            break;
+
+                        default:
+                            throw new NotSupportedException($"Неизвестный формат файла: {openFileDialog.FilterIndex}");
                     }
 
                     MessageBox.Show("Заметки успешно загружены!");
@@ -179,6 +222,9 @@ namespace NoteAppSY_UI
             CategoryChange();
         }
 
+        /// <summary>
+        /// Создать заметку
+        /// </summary>
         public void AddNote()
         {
             Note newNote = new Note();
@@ -199,7 +245,9 @@ namespace NoteAppSY_UI
                 notesListBox.SelectedIndex = 0;
             }
         }
-
+        /// <summary>
+        /// Редактировать заметку
+        /// </summary>
         public void EditNote()
         {
             if (notesListBox.SelectedIndex == -1)
@@ -228,21 +276,38 @@ namespace NoteAppSY_UI
             }
             else notesListBox.SelectedIndex = selectedIndex;
         }
+        /// <summary>
+        /// Удалить заметку
+        /// </summary>
         public void RemoveNote()
         {
-            // Проверяем, что элемент выбран
-            if (notesListBox.SelectedIndex != -1)
+            // Получаем индексы выбранных заметок
+            List<int> selectedIndices = notesListBox.SelectedIndices.Cast<int>().ToList();
+
+            if (!selectedIndices.Any())
             {
-                Note selectedNote = _noteList.FilteredNotes[notesListBox.SelectedIndex];
-                DialogResult result = MessageBox.Show("Do you really want to remove this note: " + _noteList.FilteredNotes[notesListBox.SelectedIndex].Name,
-                    "Remove note",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.OK)
+                return; // Ничего не выбрано, выход из функции
+            }
+
+            // Формируем сообщение в зависимости от количества выбранных заметок
+            string message = selectedIndices.Count == 1
+                ? $"Do you really want to remove this note: {_noteList.FilteredNotes[selectedIndices[0]].Name}?"
+                : $"Are you sure you want to delete {selectedIndices.Count} notes?";
+
+            DialogResult result = MessageBox.Show(message, "Delete Notes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                // Сортируем индексы в обратном порядке, чтобы удаление не влияло на последующие индексы
+                selectedIndices.Sort((a, b) => b.CompareTo(a));
+
+                // Проходимся по всем выбранным заметкам и удаляем их из обоих списков
+                foreach (int index in selectedIndices)
                 {
+                    Note note = _noteList.FilteredNotes[index]; // Получаем заметку по индексу из FilteredNotes
+
                     // Находим заметку по Id в основном списке _note
-                    int noteIndex = _noteList.Notes.FindIndex(n => n.Id == selectedNote.Id);
-                    int selectedIndex = notesListBox.SelectedIndex;
+                    int noteIndex = _noteList.Notes.FindIndex(n => n.Id == note.Id);
 
                     if (noteIndex != -1)
                     {
@@ -250,34 +315,27 @@ namespace NoteAppSY_UI
                     }
 
                     // Удаляем заметку из _noteList.FilteredNotes
-                    _noteList.FilteredNotes.RemoveAt(notesListBox.SelectedIndex);
+                    _noteList.FilteredNotes.RemoveAt(index);
+                }
 
-                    // Обновляем список заметок
-                    UpdateNotesListBox();
+                // Обновляем список заметок
+                UpdateNotesListBox();
 
-                    // Обновляем SelectedIndex, если нужно
-                    if (notesListBox.Items.Count > 0)
-                    {
-                        // Выбираем следующий элемент, если не последний
-                        if (selectedIndex < notesListBox.Items.Count)
-                        {
-                            notesListBox.SelectedIndex = selectedIndex;
-                        }
-                        // Выбираем предыдущий элемент, если не первый
-                        else if (selectedIndex > 0)
-                        {
-                            notesListBox.SelectedIndex = selectedIndex - 1;
-                        }
-                        // Если удален единственный элемент, список пуст - ничего не выбираем
-                    }
-                    else if (notesListBox.Items.Count == 0)
-                    {
-                        ClearTextForms();
-                    }
+                // Если остались заметки, выбираем первую
+                if (_noteList.FilteredNotes.Count > 0)
+                {
+                    notesListBox.SelectedIndex = 0;
+                }
+                else
+                {
+                    ClearTextForms();
                 }
             }
         }
 
+        /// <summary>
+        /// Изменить категорию
+        /// </summary>
         public void CategoryChange()
         {
             if (notesCategory.SelectedItem != null)
@@ -389,7 +447,7 @@ namespace NoteAppSY_UI
             createSelectedTextBox.Clear();
         }
         /// <summary>
-        /// Метод для обновления notesListBox
+        /// Метод для обновления отоброжаемого списка заметок
         /// </summary>
         public void UpdateNotesListBox()
         {
@@ -404,11 +462,17 @@ namespace NoteAppSY_UI
                 notesListBox.Items.Add(lastUpdateD + " " + name);
             }
         }
+
+        /// <summary>
+        /// Сериализовать заметки
+        /// </summary>
         private void SaveNotes(string filePath)
         {
             _fileManager.SerializeNotesToFile(filePath, _noteList.Notes);
         }
-
+        /// <summary>
+        /// Десериализовать заметки
+        /// </summary>
         private void LoadNotes(string filePath)
         {
             var notes = _fileManager.DeserializeNotesFromFile(filePath);
