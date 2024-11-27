@@ -55,19 +55,19 @@ namespace NoteAppSY_UI
         }
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (noteNameTextBox.Text.Length > 25)
+            try
             {
-                MessageBox.Show("Note title symbols should not except 25");
-                return;
-            }
-            else
-            {
-                DialogResult = DialogResult.OK;
                 _note.Name = noteNameTextBox.Text;
                 _note.Text = NoteTextBox.Text;
                 _note.LastUpdate = DateTime.Now;
                 _note.Category = editNotesCategory.Text;
+
+                DialogResult = DialogResult.OK;
                 this.Close();
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void cancelButton_Click(object sender, EventArgs e)

@@ -13,7 +13,19 @@ namespace NoteAppSY
     public class Note
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value.Length > 35)
+                {
+                    throw new ArgumentException("Note title symbols should not exceed 35 characters.");
+                }
+                _name = value;
+            }
+        }
         public string Text { get; set; }
         public string Category { get; set; }
         public DateTime LastUpdate;

@@ -18,7 +18,8 @@ namespace NoteAppSY_UI
         ///<summary>
         ///Список заметок
         /// </summary>
-        private NoteList _noteList = new NoteList();
+        private readonly NoteList _noteList = new NoteList();
+        private readonly NoteFileManager _fileManager = new NoteFileManager();
 
         public MainForm()
         {
@@ -37,6 +38,11 @@ namespace NoteAppSY_UI
             
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportNotes();
+        }
+
+        public void ExportNotes()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
@@ -65,8 +71,12 @@ namespace NoteAppSY_UI
                 }
             }
         }
-
+        
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportNotes();
+        }
+        public void ImportNotes()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
@@ -101,7 +111,7 @@ namespace NoteAppSY_UI
 
                             _noteList.Notes.Add(note);
                             UpdateNotesListBox();
-                            categoryComboBox_SelectedIndexChanged(sender, e);
+                            CategoryChange();
                             ClearTextForms();
 
                         }
@@ -123,52 +133,12 @@ namespace NoteAppSY_UI
 
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Note newNote = new Note();
-            newNote.Id = Guid.NewGuid();
-            newNote.Name = "Новая заметка";
-            newNote.Category = "Other";
-            newNote.LastUpdate = DateTime.Now;
-            newNote.CreateTime = DateTime.Now;
-            var edit = new EditForm(); //Создаем форму 
-            edit.Note = newNote; //Передаем форме данные
-            edit.ShowDialog(); //Отображаем форму для редактирования
-            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit создаем новую заметку
-            {
-                var updatedNote = edit.Note;
-                _noteList.Notes.Add(updatedNote);
-                UpdateNotesListBox();
-                categoryComboBox_SelectedIndexChanged(sender, e);
-                //notesListBox.SelectedIndex = 0;
-            }
+            AddNote();
         }
 
         private void editNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (notesListBox.SelectedIndex == -1)
-            {
-                // Если ничего не выбрано, выводим предупреждение
-                MessageBox.Show("Select note before editing");
-                return;
-            }
-            //Получаем текущую выбранную заметку
-            var selectedIndex = notesListBox.SelectedIndex;
-            var selectedNote = _noteList.FilteredNotes[selectedIndex];
-            var edit = new EditForm(); //Создаем форму 
-            edit.Note = selectedNote; //Передаем форме данные
-            edit.ShowDialog(); //Отображаем форму для редактирования
-            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit обновляем список
-            {
-                var updatedNote = edit.Note; //Забираем измененные данные
-                //Осталось удалить старые данные по выбранному индексу
-                // и заменить их на обновленные
-                int originalIndex = _noteList.Notes.IndexOf(selectedNote);
-                _noteList.Notes.RemoveAt(originalIndex);
-                _noteList.Notes.Insert(originalIndex, updatedNote);
-                UpdateNotesListBox();
-                categoryComboBox_SelectedIndexChanged(sender, e);
-                notesListBox.SelectedIndex = 0;
-            }
-            else notesListBox.SelectedIndex = selectedIndex;
+            EditNote();
         }
         /// <summary>
         /// Код для заполнения формы заметками
@@ -193,6 +163,72 @@ namespace NoteAppSY_UI
             }
         }
         private void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveNote();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var about = new AboutForm(); //Создаем форму About
+            about.ShowDialog();
+        }
+
+        // Действие при смене категории
+        private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CategoryChange();
+        }
+
+        public void AddNote()
+        {
+            Note newNote = new Note();
+            newNote.Id = Guid.NewGuid();
+            newNote.Name = "Новая заметка";
+            newNote.Category = "Other";
+            newNote.LastUpdate = DateTime.Now;
+            newNote.CreateTime = DateTime.Now;
+            var edit = new EditForm(); //Создаем форму 
+            edit.Note = newNote; //Передаем форме данные
+            edit.ShowDialog(); //Отображаем форму для редактирования
+            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit создаем новую заметку
+            {
+                var updatedNote = edit.Note;
+                _noteList.Notes.Add(updatedNote);
+                UpdateNotesListBox();
+                CategoryChange();
+                notesListBox.SelectedIndex = 0;
+            }
+        }
+
+        public void EditNote()
+        {
+            if (notesListBox.SelectedIndex == -1)
+            {
+                // Если ничего не выбрано, выводим предупреждение
+                MessageBox.Show("Select note before editing");
+                return;
+            }
+            //Получаем текущую выбранную заметку
+            var selectedIndex = notesListBox.SelectedIndex;
+            var selectedNote = _noteList.FilteredNotes[selectedIndex];
+            var edit = new EditForm(); //Создаем форму 
+            edit.Note = selectedNote; //Передаем форме данные
+            edit.ShowDialog(); //Отображаем форму для редактирования
+            if (edit.DialogResult == DialogResult.OK) //При нажатии ок на форме Edit обновляем список
+            {
+                var updatedNote = edit.Note; //Забираем измененные данные
+                //Осталось удалить старые данные по выбранному индексу
+                // и заменить их на обновленные
+                int originalIndex = _noteList.Notes.IndexOf(selectedNote);
+                _noteList.Notes.RemoveAt(originalIndex);
+                _noteList.Notes.Insert(originalIndex, updatedNote);
+                UpdateNotesListBox();
+                CategoryChange();
+                notesListBox.SelectedIndex = 0;
+            }
+            else notesListBox.SelectedIndex = selectedIndex;
+        }
+        public void RemoveNote()
         {
             // Проверяем, что элемент выбран
             if (notesListBox.SelectedIndex != -1)
@@ -242,14 +278,7 @@ namespace NoteAppSY_UI
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var about = new AboutForm(); //Создаем форму About
-            about.ShowDialog();
-        }
-
-        // Действие при смене категории
-        private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        public void CategoryChange()
         {
             if (notesCategory.SelectedItem != null)
             {
@@ -312,7 +341,7 @@ namespace NoteAppSY_UI
 
         private void addPictureBox_Click(object sender, EventArgs e)
         {
-            addNoteToolStripMenuItem_Click(sender, e);
+            AddNote();
         }
         private void addPictureBox_MouseHover(object sender, EventArgs e)
         {
@@ -323,7 +352,7 @@ namespace NoteAppSY_UI
         }
         private void editPictureBox_Click(object sender, EventArgs e)
         {
-            editNoteToolStripMenuItem_Click(sender, e);
+            EditNote();
         }
         private void editPictureBox_MouseHover(object sender, EventArgs e)
         {
@@ -334,7 +363,7 @@ namespace NoteAppSY_UI
         }
         private void removePictureBox_Click(object sender, EventArgs e)
         {
-            removeNoteToolStripMenuItem_Click(sender, e);
+            RemoveNote();
         }
         private void removePictureBox_MouseHover(object sender, EventArgs e)
         {
@@ -346,26 +375,6 @@ namespace NoteAppSY_UI
         private void noteTextBox_TextChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void SerializeNotesToFile(string filePath)
-        {
-            // Сериализация списка заметок в JSON
-            string json = JsonConvert.SerializeObject(_noteList.Notes, Formatting.Indented);
-
-            // Запись JSON в файл
-            File.WriteAllText(filePath, json);
-        }
-
-        private void DeserializeNotesFromFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string json = File.ReadAllText(filePath);
-                var notes = JsonConvert.DeserializeObject<List<Note>>(json);
-                _noteList.SetNotes(notes);
-                UpdateNotesListBox();
-            }
         }
 
         /// <summary>
@@ -395,7 +404,17 @@ namespace NoteAppSY_UI
                 notesListBox.Items.Add(lastUpdateD + " " + name);
             }
         }
+        private void SaveNotes(string filePath)
+        {
+            _fileManager.SerializeNotesToFile(filePath, _noteList.Notes);
+        }
 
+        private void LoadNotes(string filePath)
+        {
+            var notes = _fileManager.DeserializeNotesFromFile(filePath);
+            _noteList.SetNotes(notes);
+            UpdateNotesListBox();
+        }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want to save changes?",
@@ -404,7 +423,7 @@ namespace NoteAppSY_UI
                 MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                SerializeNotesToFile(@"d:\notes.json"); // Сохраняем данные при закрытии формы
+                SaveNotes(@"d:\notes.json"); // Сохраняем данные при закрытии формы
             }
             else if (result == DialogResult.Cancel) // Обработка Cancel
             {
@@ -414,7 +433,7 @@ namespace NoteAppSY_UI
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            DeserializeNotesFromFile(@"d:\notes.json"); // Загружаем данные при загрузке формы
+            LoadNotes(@"d:\notes.json"); // Загружаем данные при загрузке формы
             notesCategory.SelectedIndex = 0;
         }
 
