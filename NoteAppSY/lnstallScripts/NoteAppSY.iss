@@ -24,11 +24,11 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\Dragon\source\repos\NoteAppSY\LICENSE
+LicenseFile=..\..\LICENSE
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\Users\Dragon\source\repos\NoteAppSY\NoteAppSY\lnstallScripts\Installers
+OutputDir=.\Installers
 OutputBaseFilename=NoteAppSY
 Compression=lzma
 SolidCompression=yes
@@ -42,10 +42,9 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-;Source: "C:\Program Files (x86)\Inno Setup 6\Examples\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Dragon\source\repos\NoteAppSY\NoteAppSY\lnstallScripts\release\NoteAppSY.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Dragon\source\repos\NoteAppSY\NoteAppSY\lnstallScripts\release\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Dragon\source\repos\NoteAppSY\NoteAppSY\lnstallScripts\release\NoteAppSY.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\release\NoteAppSY.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\release\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\release\NoteAppSY.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

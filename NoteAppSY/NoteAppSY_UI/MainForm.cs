@@ -479,6 +479,7 @@ namespace NoteAppSY_UI
             _noteList.SetNotes(notes);
             UpdateNotesListBox();
         }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want to save changes?",

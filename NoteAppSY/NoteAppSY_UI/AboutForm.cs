@@ -32,5 +32,15 @@ namespace NoteAppSY_UI
         {
 
         }
+
+        private void AboutTextBox0_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AAboutStatusGroupBox0_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
